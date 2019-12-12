@@ -21,19 +21,18 @@
 
 #include <libusb.h>
 
-struct corsair_device_scan
-{
-    struct corsair_device_info* device;
+struct corsair_device_scan {
+	struct corsair_device_info* device;
 
-    /** libusb device structures */
-    struct libusb_device_handle* handle;
+	/** libusb device structures */
+	struct libusb_device_handle* handle;
 } scanlist[10];
 
 int
-corsairlink_handle_close( struct libusb_device_handle* handle );
+corsairlink_handle_close(struct libusb_device_handle* handle);
 int
-corsairlink_close( libusb_context* context );
+corsairlink_close(libusb_context* context);
 int
-corsairlink_device_scanner( libusb_context* context, int* _scanlist_count );
+corsairlink_device_scanner(libusb_context* context, int* _scanlist_count);
 
 #endif

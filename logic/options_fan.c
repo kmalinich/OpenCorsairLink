@@ -26,74 +26,65 @@
 #include <string.h>
 #include <unistd.h>
 
-void
-fan_control_init( struct fan_control* settings )
-{
-    settings->channel = 0;
-    settings->mode = 0;
+void fan_control_init(struct fan_control* settings) {
+	settings->channel = 0;
+	settings->mode    = 0;
 }
 
-void
-fan_suboptions_parse( char* subopts, struct fan_control* settings )
-{
-    int opt, returnCode = 0, option_index = 0;
-    char *value, *token;
-    uint8_t ii = 0;
+void fan_suboptions_parse(char* subopts, struct fan_control* settings) {
+	char *value;
+	char *token;
 
-    while ( *subopts != '\0' )
-        switch ( getsubopt( &subopts, fan_options, &value ) )
-        {
-        case SUBOPTION_FAN_CHANNEL:
-            sscanf( value, "%hhu", &settings->channel );
-            msg_debug( "FAN Channel = %u\n", settings->channel );
-            break;
+	uint8_t ii = 0;
 
-        case SUBOPTION_FAN_MODE:
-            sscanf( value, "%u", &settings->mode );
-            msg_debug( "FAN Mode = %u\n", settings->mode );
-            break;
+	while (*subopts != '\0') switch (getsubopt(&subopts, fan_options, &value)) {
+		case SUBOPTION_FAN_CHANNEL:
+			sscanf(value, "%hhu", &settings->channel);
+			msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan channel = %u\n", settings->channel);
+			break;
 
-        case SUBOPTION_FAN_PWM:
-            sscanf( value, "%hhu", &settings->speed_pwm );
-            msg_debug( "FAN PWM = %u\n", settings->speed_pwm );
-            break;
+		case SUBOPTION_FAN_MODE:
+			sscanf(value, "%u", &settings->mode);
+			msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan mode = %u\n", settings->mode);
+			break;
 
-        case SUBOPTION_FAN_RPM:
-            sscanf( value, "%hu", &settings->speed_rpm );
-            msg_debug( "FAN RPM = %u\n", settings->speed_rpm );
-            break;
+		case SUBOPTION_FAN_PWM:
+			sscanf(value, "%hhu", &settings->speed_pwm);
+			msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan PWM = %u\n", settings->speed_pwm);
+			break;
 
-        case SUBOPTION_FAN_TEMPERATURES:
-            ii = 0;
-            token = strtok( value, ":" );
-            while ( token != NULL )
-            {
-                if ( ii == 7 )
-                    break;
-                sscanf( token, "%hhu", &settings->table[ii].temperature );
-                msg_debug( "FAN Temperature %u: %u\n", ii, settings->table[ii].temperature );
-                ++ii;
-                token = strtok( NULL, ":" );
-            }
-            break;
+		case SUBOPTION_FAN_RPM:
+			sscanf(value, "%hu", &settings->rpm_current);
+			msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan RPM = %u\n", settings->rpm_current);
+			break;
 
-        case SUBOPTION_FAN_SPEEDS:
-            ii = 0;
-            token = strtok( value, ":" );
-            while ( token != NULL )
-            {
-                if ( ii == 7 )
-                    break;
-                sscanf( token, "%hhu", &settings->table[ii].speed );
-                msg_debug( "FAN Speed %d: %u\n", ii, settings->table[ii].speed );
-                ++ii;
-                token = strtok( NULL, ":" );
-            }
-            break;
+		case SUBOPTION_FAN_TEMPERATURES:
+			ii = 0;
+			token = strtok(value, ":");
+			while (token != NULL) {
+				if (ii == 7) break;
+				sscanf(token, "%hhu", &settings->table[ii].temperature);
+				msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan temperature %u: %u\n", ii, settings->table[ii].temperature);
+				++ii;
+				token = strtok(NULL, ":");
+			}
+			break;
 
-        default:
-            /* Unknown suboption. */
-            msg_info( "Unknown suboption `%s'\n", value );
-            break;
-        }
+		case SUBOPTION_FAN_SPEEDS:
+			ii = 0;
+			token = strtok(value, ":");
+			while (token != NULL) {
+				if (ii == 7) break;
+				sscanf(token, "%hhu", &settings->table[ii].speed);
+				msg_debug("[DBUG] [logic/options_fan.c] fan_suboptions_parse() :: Fan speed %d: %u\n", ii, settings->table[ii].speed);
+				++ii;
+				token = strtok(NULL, ":");
+			}
+			break;
+
+		default:
+			/* Unknown suboption. */
+			msg_info("Unknown suboption `%s'\n", value);
+			break;
+	}
 }

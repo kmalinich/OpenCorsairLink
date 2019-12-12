@@ -21,24 +21,23 @@
 
 #include <stdint.h>
 
-struct corsair_device_info
-{
-    /** device info */
-    char name[64];
-    uint16_t vendor_id;
-    uint16_t product_id;
-    uint16_t device_id;
+struct corsair_device_info {
+	/** device info */
+	char name[64];
+	uint16_t vendor_id;
+	uint16_t product_id;
+	uint16_t device_id;
 
-    /** device endpoints */
-    uint8_t read_endpoint;
-    uint8_t write_endpoint;
+	/** device endpoints */
+	uint8_t read_endpoint;
+	uint8_t write_endpoint;
 
-    /** device control info */
-    struct corsair_device_driver* driver;
-    uint8_t led_control_count; // used mostly with COOLIT driver
-    uint8_t fan_control_count; // used with COOLIT driver
-    uint8_t temperature_control_count;
-    uint8_t pump_index; // used with COOLIT driver
+	/** device control info */
+	struct corsair_device_driver* driver;
+	uint8_t led_control_count; // used mostly with COOLIT driver
+	uint8_t fan_control_count; // used with COOLIT driver
+	uint8_t temperature_control_count;
+	uint8_t pump_index; // used with COOLIT driver
 };
 
 extern struct corsair_device_info corsairlink_devices[];

@@ -19,33 +19,35 @@
 #ifndef _PRINT_H
 #define _PRINT_H
 
+#include <stdio.h>
 #include <stdint.h>
 
-enum msglevel
-{
-    MSG_ERROR = 1,
-    MSG_WARN = 2,
-    MSG_MACHINE = 3,
-    MSG_INFO = 4,
-    MSG_DEBUG = 5,
-    MSG_DEBUG2 = 6,
-    MSG_SPEW = 7,
+enum msglevel {
+	MSG_ERROR   = 1,
+	MSG_WARN    = 2,
+	MSG_MACHINE = 3,
+	MSG_INFO    = 4,
+	MSG_DEBUG   = 5,
+	MSG_NOISE   = 6,
+	MSG_SPEW    = 7,
 };
 
 extern uint8_t verbose;
 
-int
-print( enum msglevel level, const char* fmt, ... ) __attribute__( ( format( printf, 2, 3 ) ) );
-int
-dump_packet( uint8_t* packet, int size );
 
-#define msg_err( ... ) print( MSG_ERROR, __VA_ARGS__ )
-#define msg_warn( ... ) print( MSG_WARN, __VA_ARGS__ )
-#define msg_info( ... ) print( MSG_INFO, __VA_ARGS__ )
-#define msg_debug( ... ) print( MSG_DEBUG, __VA_ARGS__ )
-#define msg_debug2( ... ) print( MSG_DEBUG2, __VA_ARGS__ )
-#define msg_spew( ... ) print( MSG_SPEW, __VA_ARGS__ )
+int print(enum msglevel level, const char* fmt, ...) __attribute__((format(printf, 2, 3)));
 
-#define msg_machine( ... ) print( MSG_MACHINE, __VA_ARGS__ )
+int dump_packet(uint8_t* packet, int size);
+
+
+#define msg_err(...)   print(MSG_ERROR,  __VA_ARGS__)
+#define msg_warn(...)  print(MSG_WARN,   __VA_ARGS__)
+#define msg_info(...)  print(MSG_INFO,   __VA_ARGS__)
+
+#define msg_debug(...) print(MSG_DEBUG, __VA_ARGS__)
+
+#define msg_spew(...)  print(MSG_SPEW,  __VA_ARGS__)
+
+#define msg_machine(...) print(MSG_MACHINE, __VA_ARGS__)
 
 #endif

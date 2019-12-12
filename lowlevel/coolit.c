@@ -34,10 +34,8 @@
 #define INTERRUPT_IN_ENDPOINT 0x81
 
 // Values for bmRequestType in the Setup transaction's Data packet.
-static const int CONTROL_REQUEST_TYPE_IN =
-    LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
-static const int CONTROL_REQUEST_TYPE_OUT =
-    LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
+static const int CONTROL_REQUEST_TYPE_IN = LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
+static const int CONTROL_REQUEST_TYPE_OUT = LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
 
 /*! USB HID Init routine
  *  USB HID Init routine is empty
@@ -46,9 +44,8 @@ static const int CONTROL_REQUEST_TYPE_OUT =
  *  @return 0
  */
 int
-corsairlink_coolit_init( struct libusb_device_handle* dev_handle, uint8_t endpoint )
-{
-    return 0;
+corsairlink_coolit_init(struct libusb_device_handle* dev_handle, uint8_t endpoint) {
+	return 0;
 }
 
 /*! USB HID De-Init routine
@@ -58,9 +55,8 @@ corsairlink_coolit_init( struct libusb_device_handle* dev_handle, uint8_t endpoi
  *  @return 0
  */
 int
-corsairlink_coolit_deinit( struct libusb_device_handle* dev_handle, uint8_t endpoint )
-{
-    return 0;
+corsairlink_coolit_deinit(struct libusb_device_handle* dev_handle, uint8_t endpoint) {
+	return 0;
 }
 
 /*! USB HID Lowlevel Write
@@ -72,17 +68,15 @@ corsairlink_coolit_deinit( struct libusb_device_handle* dev_handle, uint8_t endp
  *  @return 0
  */
 int
-corsairlink_coolit_write(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length )
-{
-    int bytes_transferred;
-    int rr;
+corsairlink_coolit_write(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length) {
+	int bytes_transferred;
+	int rr;
 
-    rr = libusb_control_transfer(
-        dev_handle, CONTROL_REQUEST_TYPE_OUT, HID_SET_REPORT, /** HID Set_Report */
-        ( HID_REPORT_TYPE_OUTPUT << 8 ) | 0x00, INTERFACE_NUMBER, data, length, TIMEOUT_DEFAULT );
+	rr = libusb_control_transfer(
+		dev_handle, CONTROL_REQUEST_TYPE_OUT, HID_SET_REPORT, /** HID Set_Report */
+		(HID_REPORT_TYPE_OUTPUT << 8) | 0x00, INTERFACE_NUMBER, data, length, TIMEOUT_DEFAULT);
 
-    return rr;
+	return rr;
 }
 
 /*! USB HID Lowlevel Read
@@ -94,14 +88,11 @@ corsairlink_coolit_write(
  *  @return 0
  */
 int
-corsairlink_coolit_read(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length )
-{
-    int bytes_transferred;
-    int rr;
+corsairlink_coolit_read(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length) {
+	int bytes_transferred;
+	int rr;
 
-    rr = libusb_interrupt_transfer(
-        dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT );
+	rr = libusb_interrupt_transfer(dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT);
 
-    return rr;
+	return rr;
 }

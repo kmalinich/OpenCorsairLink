@@ -30,91 +30,75 @@
 #include <unistd.h>
 
 int
-corsairlink_asetek_pump_mode(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+corsairlink_asetek_pump_mode(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
+	uint8_t response[64];
+	uint8_t commands[64];
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = PumpMode;
+	commands[0] = PumpMode;
 
-    if ( ctrl->mode == PERFORMANCE )
-        commands[1] = Asetek_Performance;
-    else if ( ctrl->mode == QUIET )
-        commands[1] = Asetek_Quiet;
+	if (ctrl->mode == PERFORMANCE)
+		commands[1] = Asetek_Performance;
+	else if (ctrl->mode == QUIET)
+		commands[1] = Asetek_Quiet;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 32 );
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 32);
 
-    return rr;
+	return rr;
 }
 
 int
-corsairlink_asetek_pump_mode_quiet(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+corsairlink_asetek_pump_mode_quiet(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
+	uint8_t response[64];
+	uint8_t commands[64];
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = PumpMode;
-    commands[1] = Asetek_Quiet;
+	commands[0] = PumpMode;
+	commands[1] = Asetek_Quiet;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 32 );
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 32);
 
-    return rr;
+	return rr;
 }
 
 int
-corsairlink_asetek_pump_mode_performance(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+corsairlink_asetek_pump_mode_performance(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
+	uint8_t response[64];
+	uint8_t commands[64];
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = PumpMode;
-    commands[1] = Asetek_Performance;
+	commands[0] = PumpMode;
+	commands[1] = Asetek_Performance;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 32 );
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 32);
 
-    return rr;
+	return rr;
 }
 
 int
-corsairlink_asetek_pump_speed(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+corsairlink_asetek_pump_speed(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
+	uint8_t response[64];
+	uint8_t commands[64];
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = 0x20;
+	commands[0] = 0x20;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 32 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 32 );
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 32);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 32);
 
-    msg_debug2( "%02X %02X\n", response[8], response[9] );
-    ctrl->speed = ( response[8] << 8 ) + response[9];
+	msg_debug("%02X %02X\n", response[8], response[9]);
+	ctrl->speed = (response[8] << 8) + response[9];
 
-    return rr;
+	return rr;
 }

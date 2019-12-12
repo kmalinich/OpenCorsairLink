@@ -1,14 +1,13 @@
 #include "config.h"
 
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
 #include <cmocka.h>
 #include <cmocka_private.h>
-
 #include <errno.h>
-#include <sys/types.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stddef.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -20,24 +19,25 @@
 /**************************************
  *** assert_return_code
  **************************************/
-static void test_assert_return_code_fail(void **state)
-{
-    int fd;
+static void
+test_assert_return_code_fail(void** state) {
+	int fd;
 
-    (void)state; /* unused */
+	(void)state; /* unused */
 
-    fd = open("this_file_doesnt_exist.cmocka", 0);
-    assert_return_code(fd, errno);
+	fd = open("this_file_doesnt_exist.cmocka", 0);
+	assert_return_code(fd, errno);
 
-    if (fd >= 0) {
-        close(fd);
-    }
+	if (fd >= 0) {
+		close(fd);
+	}
 }
 
-int main(void) {
-    const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_assert_return_code_fail),
-    };
+int
+main(void) {
+	const struct CMUnitTest tests[] = {
+		cmocka_unit_test(test_assert_return_code_fail),
+	};
 
-    return cmocka_run_group_tests(tests, NULL, NULL);
+	return cmocka_run_group_tests(tests, NULL, NULL);
 }

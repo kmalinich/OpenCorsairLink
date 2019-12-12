@@ -31,18 +31,17 @@
  *
  */
 int
-corsairlink_asetek_init( struct libusb_device_handle* dev_handle, uint8_t endpoint )
-{
-    int rr;
+corsairlink_asetek_init(struct libusb_device_handle* dev_handle, uint8_t endpoint) {
+	int rr;
 
-    rr = libusb_control_transfer( dev_handle, 0x40, 0x00, 0xffff, 0x0000, NULL, 0, 0 );
-    // if (rr < 0)
-    // {
-    //     return rr;
-    // }
-    rr = libusb_control_transfer( dev_handle, 0x40, 0x02, 0x0002, 0x0000, NULL, 0, 0 );
+	rr = libusb_control_transfer(dev_handle, 0x40, 0x00, 0xffff, 0x0000, NULL, 0, 0);
+	// if (rr < 0)
+	// {
+	//     return rr;
+	// }
+	rr = libusb_control_transfer(dev_handle, 0x40, 0x02, 0x0002, 0x0000, NULL, 0, 0);
 
-    return rr;
+	return rr;
 }
 
 /*! Asetek De-Init routine.
@@ -50,13 +49,12 @@ corsairlink_asetek_init( struct libusb_device_handle* dev_handle, uint8_t endpoi
  *
  */
 int
-corsairlink_asetek_deinit( struct libusb_device_handle* dev_handle, uint8_t endpoint )
-{
-    int rr;
+corsairlink_asetek_deinit(struct libusb_device_handle* dev_handle, uint8_t endpoint) {
+	int rr;
 
-    rr = libusb_control_transfer( dev_handle, 0x40, 0x02, 0x0004, 0x0000, NULL, 0, 200 );
+	rr = libusb_control_transfer(dev_handle, 0x40, 0x02, 0x0004, 0x0000, NULL, 0, 200);
 
-    return rr;
+	return rr;
 }
 
 /*! Lowlevel Asetek Write routine.
@@ -64,16 +62,13 @@ corsairlink_asetek_deinit( struct libusb_device_handle* dev_handle, uint8_t endp
  *
  */
 int
-corsairlink_asetek_write(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length )
-{
-    int bytes_transferred;
-    int rr;
+corsairlink_asetek_write(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length) {
+	int bytes_transferred;
+	int rr;
 
-    rr = libusb_bulk_transfer(
-        dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT );
+	rr = libusb_bulk_transfer(dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT);
 
-    return rr;
+	return rr;
 }
 
 /*! Lowlevel Asetek Read routine.
@@ -81,14 +76,11 @@ corsairlink_asetek_write(
  *
  */
 int
-corsairlink_asetek_read(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length )
-{
-    int bytes_transferred;
-    int rr;
+corsairlink_asetek_read(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length) {
+	int bytes_transferred;
+	int rr;
 
-    rr = libusb_bulk_transfer(
-        dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT );
+	rr = libusb_bulk_transfer(dev_handle, endpoint, data, length, &bytes_transferred, TIMEOUT_DEFAULT);
 
-    return rr;
+	return rr;
 }

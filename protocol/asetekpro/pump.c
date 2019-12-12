@@ -29,147 +29,129 @@
 #include <string.h>
 #include <unistd.h>
 
-int
-corsairlink_asetekpro_pump_mode_read(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
 
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+int corsairlink_asetekpro_pump_mode_read(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
 
-    msg_debug("function:corsairlink_asetekpro_pump_mode_read file: protocol/asetekpro/pump.c\n");
+	uint8_t response[64];
+	uint8_t commands[64];
 
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = AsetekProPumpModeRead;
+	commands[0] = AsetekProReadPumpMode;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 1 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 4 );
-  
-    msg_debug("pump mode response = %02X %02X %02X %02X\n", response[0], response[1], 
-		response[2], response[3]
-    );
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_read() :: commands = %02X\n", commands[0]);
 
-    if ( response[0] != AsetekProPumpModeRead || response[1] != 0x12 || response[2] != 0x34 )
-    {
-        msg_debug2( "Bad Response for astekpro pump mode\n" );
-    }
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 1);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 4);
 
-    ctrl->mode = response[3];
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_read() :: read response = %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3]);
 
-    return rr;
+	if (response[0] != AsetekProReadPumpMode || response[1] != 0x12 || response[2] != 0x34) {
+		msg_debug("[DBUG] [protocol/asetekpro/pump.c] Bad response\n");
+	}
+
+	ctrl->mode = response[3];
+
+	return rr;
 }
 
-int
-corsairlink_asetekpro_pump_mode_quiet(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+int corsairlink_asetekpro_pump_speed_read(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
 
-    commands[0] = AsetekProPumpModeWrite;
-    commands[1] = AsetekProPumpQuiet;
+	uint8_t response[64];
+	uint8_t commands[64];
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 5 );
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    msg_debug(
-        "pump write quiet response = %02X %02X %02X %02X %02X\n", 
-	response[0], response[1], response[2], response[3], response[4] );
+	commands[0] = AsetekProReadPumpSpeed;
 
-    rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
-    return rr;
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_speed_read() :: commands = %02X\n", commands[0]);
+
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 1);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 5);
+
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_speed_read() :: read response = %02X %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3], response[4]);
+
+	if (response[0] != AsetekProReadPumpSpeed) msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_speed_read() :: Bad response #1\n");
+	if (response[1] != 0x12)                   msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_speed_read() :: Bad response #2\n");
+	if (response[2] != 0x34)                   msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_speed_read() :: Bad response #3\n");
+
+	ctrl->rpm_current = (response[3] << 8) + response[4];
+	ctrl->rpm_max     = (response[1] << 8) + response[2];
+
+	return rr;
 }
 
-int
-corsairlink_asetekpro_pump_mode_balanced(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
 
-    commands[0] = AsetekProPumpModeWrite;
-    commands[1] = AsetekProPumpBalanced;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 5 );
+int corsairlink_asetekpro_pump_mode_balanced(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
 
-    msg_debug(
-        "pump write balanced response = %02X %02X %02X %02X %02X\n", 
-	response[0], response[1], response[2], response[3], response[4] );
+	uint8_t response[64];
+	uint8_t commands[64];
 
-    rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
-    return rr;
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
+
+	commands[0] = AsetekProWritePumpMode;
+	commands[1] = AsetekProPumpBalanced;
+
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_balanced() :: commands = %02X %02X\n", commands[0], commands[1]);
+
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 5);
+
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_balanced() :: write response = %02X %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3], response[4]);
+
+	rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
+	return rr;
 }
 
-int
-corsairlink_asetekpro_pump_mode_performance(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+int corsairlink_asetekpro_pump_mode_performance(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
 
-    commands[0] = AsetekProPumpModeWrite;
-    commands[1] = AsetekProPumpPerformance;
+	uint8_t response[64];
+	uint8_t commands[64];
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 2 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 5 );
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    msg_debug(
-        "pump write performance response = %02X %02X %02X %02X %02X\n", 
-	response[0], response[1], response[2], response[3], response[4] );
+	commands[0] = AsetekProWritePumpMode;
+	commands[1] = AsetekProPumpPerformance;
 
-    rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
-    return rr;
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_performance() :: commands = %02X %02X\n", commands[0], commands[1]);
+
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 5);
+
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_performance() :: write response = %02X %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3], response[4]);
+
+	rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
+	return rr;
 }
 
-int
-corsairlink_asetekpro_pump_speed(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    struct pump_control* ctrl )
-{
-    int rr;
-    uint8_t response[64];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+int corsairlink_asetekpro_pump_mode_quiet(struct corsair_device_info* dev, struct libusb_device_handle* handle, struct pump_control* ctrl) {
+	int rr;
 
-    commands[0] = AsetekProPumpSpeedRead;
+	uint8_t response[64];
+	uint8_t commands[64];
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 1 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 5 );
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    msg_debug(
-        "pump speed response = %02X %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3],
-        response[4] );
+	commands[0] = AsetekProWritePumpMode;
+	commands[1] = AsetekProPumpQuiet;
 
-    if ( response[0] != AsetekProPumpSpeedRead || response[1] != 0x12 || response[2] != 0x34 )
-    {
-        msg_debug2( "Bad Response for astekpro pump speed\n" );
-    }
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_quiet() :: commands = %02X %02X\n", commands[0], commands[1]);
 
-    ctrl->speed = ( response[3] << 8 ) + response[4];
-    ctrl->max_speed = 0;
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 2);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 5);
 
-    return rr;
+	msg_debug("[DBUG] [protocol/asetekpro/pump.c] asetekpro_pump_mode_quiet() :: write response = %02X %02X %02X %02X %02X\n", response[0], response[1], response[2], response[3], response[4]);
+
+	rr = corsairlink_asetekpro_pump_mode_read(dev, handle, ctrl);
+	return rr;
 }

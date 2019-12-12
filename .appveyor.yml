@@ -47,7 +47,7 @@ test: off
 #    draft: false
 #    prerelease: false
 #    on:
-#        branch: 
+#        branch:
 #            - master                 # release from master branch only
 #            - testing
 #        appveyor_repo_tag: true        # deploy on tag push only

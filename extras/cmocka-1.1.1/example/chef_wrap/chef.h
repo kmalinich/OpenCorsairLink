@@ -15,5 +15,7 @@
  * limitations under the License.
  */
 
-int chef_cook(const char *order, char **dish_out);
-const char *chef_strerror(int error);
+int
+chef_cook(const char* order, char** dish_out);
+const char*
+chef_strerror(int error);

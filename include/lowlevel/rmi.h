@@ -25,17 +25,15 @@
 #include <libusb.h>
 
 int
-corsairlink_rmi_init( struct libusb_device_handle* dev_handle, uint8_t endpoint );
+corsairlink_rmi_init(struct libusb_device_handle* dev_handle, uint8_t endpoint);
 
 int
-corsairlink_rmi_deinit( struct libusb_device_handle* dev_handle, uint8_t endpoint );
+corsairlink_rmi_deinit(struct libusb_device_handle* dev_handle, uint8_t endpoint);
 
 int
-corsairlink_rmi_write(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length );
+corsairlink_rmi_write(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length);
 
 int
-corsairlink_rmi_read(
-    struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length );
+corsairlink_rmi_read(struct libusb_device_handle* dev_handle, uint8_t endpoint, uint8_t* data, int length);
 
 #endif

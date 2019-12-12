@@ -21,9 +21,9 @@
 CC ?= gcc
 
 # CFLAGS ?=
-CFLAGS += -std=c99
+CFLAGS += -O3 -std=c99
 # CFLAGS += -pedantic-errors
-CFLAGS += -Iinclude
+CFLAGS += -Iinclude -I/usr/local/opt/libusb/include/libusb-1.0
 # CFLAGS += -D_XOPEN_SOURCE=500
 
 LDFLAGS ?= -lm
@@ -88,7 +88,7 @@ PROTOCOL_SOURCE := \
 
 HEADER := $(shell find ./include -name '*.h')
 
-EXECUTABLE := OpenCorsairLink.elf
+EXECUTABLE := corsairlink
 
 ####################################################################################################
 
@@ -96,10 +96,10 @@ OBJS := \
 	${MAINLOGIC_SOURCE:.c=.o}
 
 OBJS_LL := \
-	${LOWLEVEL_SOURCE:.c=.o} 
+	${LOWLEVEL_SOURCE:.c=.o}
 
 OBJS_PROTO := \
-	${PROTOCOL_SOURCE:.c=.o} 
+	${PROTOCOL_SOURCE:.c=.o}
 
 .PHONY: all
 all: $(EXECUTABLE)

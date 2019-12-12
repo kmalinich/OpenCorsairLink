@@ -33,32 +33,27 @@
 #include <unistd.h>
 
 int
-corsairlink_commanderpro_voltage(
-    struct corsair_device_info* dev,
-    struct libusb_device_handle* handle,
-    uint8_t sensor_index,
-    double* voltage )
-{
-    int rr;
-    uint8_t response[16];
-    uint8_t commands[64];
-    memset( response, 0, sizeof( response ) );
-    memset( commands, 0, sizeof( commands ) );
+corsairlink_commanderpro_voltage(struct corsair_device_info* dev, struct libusb_device_handle* handle, uint8_t sensor_index, double* voltage) {
+	int rr;
+	uint8_t response[16];
+	uint8_t commands[64];
+	memset(response, 0, sizeof(response));
+	memset(commands, 0, sizeof(commands));
 
-    commands[0] = 0x12;
-    commands[1] = (uint8_t) sensor_index;
+	commands[0] = 0x12;
+	commands[1] = (uint8_t)sensor_index;
 
-    rr = dev->driver->write( handle, dev->write_endpoint, commands, 64 );
-    rr = dev->driver->read( handle, dev->read_endpoint, response, 16 );
+	rr = dev->driver->write(handle, dev->write_endpoint, commands, 64);
+	rr = dev->driver->read(handle, dev->read_endpoint, response, 16);
 
-    //msg_debug2( "%02X %02X %02X\n", response[0], response[1], response[2] );
+	// msg_debug( "%02X %02X %02X\n", response[0], response[1], response[2] );
 
-    uint16_t data = ( response[1] << 8 ) + response[2];
-    *( voltage ) = (double)data / 1000;
+	uint16_t data = (response[1] << 8) + response[2];
+	*(voltage) = (double)data / 1000;
 
-    // snprintf(voltage, voltage_str_len, "%2.3f V", volts);
+	// snprintf(voltage, voltage_str_len, "%2.3f V", volts);
 
-    dump_packet( commands, sizeof( commands ) );
-    dump_packet( response, sizeof( response ) );
-    return 0;
+	dump_packet(commands, sizeof(commands));
+	dump_packet(response, sizeof(response));
+	return 0;
 }
