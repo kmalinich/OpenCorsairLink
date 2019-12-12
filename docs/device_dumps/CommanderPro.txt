@@ -1,15 +1,15 @@
 
-Bus 002 Device 023: ID 1b1c:0c10 Corsair 
+Bus 002 Device 023: ID 1b1c:0c10 Corsair
 Device Descriptor:
   bLength                18
   bDescriptorType         1
   bcdUSB               2.00
   bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
+  bDeviceSubClass         0
+  bDeviceProtocol         0
   bMaxPacketSize0         8
   idVendor           0x1b1c Corsair
-  idProduct          0x0c10 
+  idProduct          0x0c10
   bcdDevice            0.07
   iManufacturer           1 Corsair
   iProduct                6 Commander PRO
@@ -21,7 +21,7 @@ Device Descriptor:
     wTotalLength           41
     bNumInterfaces          1
     bConfigurationValue     1
-    iConfiguration          0 
+    iConfiguration          0
     bmAttributes         0xc0
       Self Powered
     MaxPower                0mA
@@ -34,7 +34,7 @@ Device Descriptor:
       bInterfaceClass         3 Human Interface Device
       bInterfaceSubClass      0 No Subclass
       bInterfaceProtocol      0 None
-      iInterface              0 
+      iInterface              0
         HID Device Descriptor:
           bLength                 9
           bDescriptorType        33
@@ -43,7 +43,7 @@ Device Descriptor:
           bNumDescriptors         1
           bDescriptorType        34 Report
           wDescriptorLength      27
-         Report Descriptors: 
+         Report Descriptors:
            ** UNAVAILABLE **
       Endpoint Descriptor:
         bLength                 7

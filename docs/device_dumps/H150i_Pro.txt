@@ -1,4 +1,4 @@
-Bus 001 Device 005: ID 1b1c:0c12 Corsair 
+Bus 001 Device 005: ID 1b1c:0c12 Corsair
 Device Descriptor:
   bLength                18
   bDescriptorType         1

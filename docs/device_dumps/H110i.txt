@@ -3,16 +3,16 @@ Device Descriptor:
   bLength                18
   bDescriptorType         1
   bcdUSB               2.00
-  bDeviceClass            0 
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
+  bDeviceClass            0
+  bDeviceSubClass         0
+  bDeviceProtocol         0
   bMaxPacketSize0        64
   idVendor           0x1b1c Corsair
   idProduct          0x0c04 Link Cooling Node
   bcdDevice            2.00
   iManufacturer           1 Corsair Memory, Inc.
   iProduct                2 Integrated USB Bridge
-  iSerial                 0 
+  iSerial                 0
   bNumConfigurations      1
   Configuration Descriptor:
     bLength                 9
@@ -20,7 +20,7 @@ Device Descriptor:
     wTotalLength       0x0022
     bNumInterfaces          1
     bConfigurationValue     1
-    iConfiguration          0 
+    iConfiguration          0
     bmAttributes         0x80
       (Bus Powered)
     MaxPower              100mA
@@ -31,9 +31,9 @@ Device Descriptor:
       bAlternateSetting       0
       bNumEndpoints           1
       bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
+      bInterfaceSubClass      0
+      bInterfaceProtocol      0
+      iInterface              0
         HID Device Descriptor:
           bLength                 9
           bDescriptorType        33
@@ -42,7 +42,7 @@ Device Descriptor:
           bNumDescriptors         1
           bDescriptorType        34 Report
           wDescriptorLength      37
-         Report Descriptors: 
+         Report Descriptors:
            ** UNAVAILABLE **
       Endpoint Descriptor:
         bLength                 7

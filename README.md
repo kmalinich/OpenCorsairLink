@@ -7,8 +7,8 @@ OpenCorsairLink is a status & control utility that interacts with CorsairLink pr
 
 ## Installation
 ### Requirements
-* libusb-1.0  
-* pkg-config  
+* libusb-1.0
+* pkg-config
 
 ```
 $ make
@@ -16,7 +16,7 @@ $ sudo make install
 ```
 
 ## Usage
-Since the program needs direct hardware access you should run this with 'sudo' or as root.  
+Since the program needs direct hardware access you should run this with 'sudo' or as root.
 
 ```
 $ sudo ./OpenCorsairLink.elf
@@ -29,9 +29,9 @@ $ sudo ./OpenCorsairLink.elf --device 0 --pump mode=5
 
 ## Development
 ### Branches
- - master: Stable or Release Version  
- - testing: Testing or Release Canidate  
- - feature\/\*: Cutting Edge Features (Use at your own risk)  
+ - master: Stable or Release Version
+ - testing: Testing or Release Canidate
+ - feature\/\*: Cutting Edge Features (Use at your own risk)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

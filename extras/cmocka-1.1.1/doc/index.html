@@ -49,7 +49,7 @@ preferable.</p>
 <a name="Overview"><h2>Overview</h2></a>
 <p>cmocka tests are compiled into stand-alone executables and linked with
 the cmocka library, the standard C library and module being tested.  Any
-symbols external to the module being tested should be mocked - replaced with 
+symbols external to the module being tested should be mocked - replaced with
 functions that return values determined by the test - within the test
 application.  Even though significant differences may exist between the target
 execution environment of a code module and the environment used to test the
@@ -138,7 +138,7 @@ calls to <b>mock_assert()</b> occur during the function called via
 
 // If unit testing is enabled override assert with mock_assert().
 #ifdef UNIT_TESTING
-extern void mock_assert(const int result, const char* const expression, 
+extern void mock_assert(const int result, const char* const expression,
                         const char * const file, const int line);
 #undef assert
 #define assert(expression) \
@@ -287,7 +287,7 @@ the test application to exit prematurely.</p>
 
 #ifdef UNIT_TESTING
 extern void* _test_malloc(const size_t size, const char* file, const int line);
-extern void* _test_calloc(const size_t number_of_elements, const size_t size, 
+extern void* _test_calloc(const size_t number_of_elements, const size_t size,
                           const char* file, const int line);
 extern void _test_free(void* const ptr, const char* file, const int line);
 
@@ -354,23 +354,23 @@ int main(int argc, char* argv[]) {
 <p>A unit test should ideally isolate the function or module being tested
 from any external dependencies.  This can be performed using mock functions
 that are either statically or dynamically linked with the module being tested.
-Mock functions must be statically linked when the code being tested directly 
-references external functions.  Dynamic linking is simply the process of 
-setting a function pointer in a table used by the tested module to reference 
+Mock functions must be statically linked when the code being tested directly
+references external functions.  Dynamic linking is simply the process of
+setting a function pointer in a table used by the tested module to reference
 a mock function defined in the unit test.</p>
 
 <a name="Return_Values"><h3>Return Values</h3></a>
 
 <p>In order to simplify the implementation of mock functions cmocka provides
 functionality which stores return values for mock functions in each test
-case using <b>will_return()</b>.  These values are then returned by each mock 
+case using <b>will_return()</b>.  These values are then returned by each mock
 function using calls to <b>mock()</b>.
 
-Values passed to <b>will_return()</b> are added to a queue for each function 
+Values passed to <b>will_return()</b> are added to a queue for each function
 specified.  Each successive call to <b>mock()</b> from a function removes a
 return value from the queue.  This makes it possible for a mock function to use
 multiple calls to <b>mock()</b> to return output parameters in addition to a
-return value.  In addition this allows the specification of return values for 
+return value.  In addition this allows the specification of return values for
 multiple calls to a mock function.</p>
 
 <h4>Using will_return()</h4>

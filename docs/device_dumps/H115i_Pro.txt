@@ -1,15 +1,15 @@
 
-Bus 002 Device 025: ID 1b1c:0c13 Corsair 
+Bus 002 Device 025: ID 1b1c:0c13 Corsair
 Device Descriptor:
   bLength                18
   bDescriptorType         1
   bcdUSB               2.00
   bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
+  bDeviceSubClass         0
+  bDeviceProtocol         0
   bMaxPacketSize0        64
   idVendor           0x1b1c Corsair
-  idProduct          0x0c13 
+  idProduct          0x0c13
   bcdDevice            1.00
   iManufacturer           1 Corsair
   iProduct                2 H115i Platinum
@@ -21,7 +21,7 @@ Device Descriptor:
     wTotalLength           32
     bNumInterfaces          1
     bConfigurationValue     1
-    iConfiguration          0 
+    iConfiguration          0
     bmAttributes         0xc0
       Self Powered
     MaxPower               64mA
@@ -32,9 +32,9 @@ Device Descriptor:
       bAlternateSetting       0
       bNumEndpoints           2
       bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
+      bInterfaceSubClass      0
+      bInterfaceProtocol      0
+      iInterface              0
       Endpoint Descriptor:
         bLength                 7
         bDescriptorType         5
